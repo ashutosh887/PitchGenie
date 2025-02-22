@@ -1,12 +1,12 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import connectDB from "@/lib/db";
+import { connectToDatabase } from "@/lib/mongodb";
 import Lead from "@/models/Lead";
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  await connectDB();
+  await connectToDatabase();
 
   if (req.method !== "GET") {
     return res.status(405).json({ message: "Method not allowed" });
