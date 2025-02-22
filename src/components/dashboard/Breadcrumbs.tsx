@@ -10,6 +10,7 @@ import {
   BreadcrumbPage,
 } from "@/components/ui/breadcrumb";
 
+// TODO: fix BreadCrumbs
 const Breadcrumbs = () => {
   const pathname = usePathname();
   const paths = pathname.split("/").filter(Boolean);

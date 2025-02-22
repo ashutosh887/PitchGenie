@@ -18,29 +18,29 @@ const navConfig: NavSection[] = [
     title: "Prospect",
     icon: Search,
     subSections: [
-      { title: "Lead Finder", path: "/dashboard/prospect/lead-finder" },
+      { title: "Lead Finder", path: "/dashboard/lead-finder" },
       {
         title: "Contact Enrichment",
-        path: "/dashboard/prospect/contact-enrichment",
+        path: "/dashboard/contact-enrichment",
       },
-      { title: "Lead Scoring", path: "/dashboard/prospect/lead-scoring" },
-      { title: "CRM Integration", path: "/dashboard/prospect/crm-integration" },
+      { title: "Lead Scoring", path: "/dashboard/lead-scoring" },
+      { title: "CRM Integration", path: "/dashboard/crm-integration" },
     ],
   },
   {
     title: "Engage",
     icon: Mail,
     subSections: [
-      { title: "Email Generator", path: "/dashboard/engage/email-generator" },
+      { title: "Email Generator", path: "/dashboard/email-generator" },
       {
         title: "Multi-Channel Outreach",
-        path: "/dashboard/engage/multi-channel-outreach",
+        path: "/dashboard/multi-channel-outreach",
       },
       {
         title: "Follow-up Automation",
-        path: "/dashboard/engage/follow-up-automation",
+        path: "/dashboard/follow-up-automation",
       },
-      { title: "Pitch Analytics", path: "/dashboard/engage/pitch-analytics" },
+      { title: "Pitch Analytics", path: "/dashboard/pitch-analytics" },
     ],
   },
   {
@@ -49,16 +49,16 @@ const navConfig: NavSection[] = [
     subSections: [
       {
         title: "Meeting Scheduler",
-        path: "/dashboard/conversion/meeting-scheduler",
+        path: "/dashboard/meeting-scheduler",
       },
-      { title: "Deal Pipeline", path: "/dashboard/conversion/deal-pipeline" },
+      { title: "Deal Pipeline", path: "/dashboard/deal-pipeline" },
       {
         title: "Smart Recommendation",
-        path: "/dashboard/conversion/smart-recommendation",
+        path: "/dashboard/smart-recommendation",
       },
       {
         title: "Posthog Analytics",
-        path: "/dashboard/conversion/posthog-analytics",
+        path: "/dashboard/posthog-analytics",
       },
     ],
   },
