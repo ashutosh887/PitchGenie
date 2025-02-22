@@ -1,148 +1,89 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"; // Correct import from your project
+import { useState } from "react";
+import axios from "axios";
+import { useForm } from "react-hook-form";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
-// Constants for default values, to be replaced with API data later
-const LEAD_LIST = [
-  { name: "John Doe", company: "TechCorp", role: "CEO", engagement: "High" },
-  {
-    name: "Jane Smith",
-    company: "InnoTech",
-    role: "Marketing Lead",
-    engagement: "Medium",
-  },
-  { name: "Michael Brown", company: "WebSoft", role: "CTO", engagement: "Low" },
-];
+interface Lead {
+  name: string;
+  company: string;
+  jobTitle: string;
+  engagementScore: number;
+  leadSource: string;
+  email: string;
+  phoneNumber: string;
+}
 
-const FILTER_OPTIONS = {
-  industries: ["Tech", "Healthcare", "Finance"],
-  locations: ["USA", "Canada", "Europe"],
-  companySizes: ["Small", "Medium", "Large"],
-  engagementScores: ["Low", "Medium", "High"],
-};
+const LeadFinder = () => {
+  const { register, handleSubmit } = useForm();
+  const [leads, setLeads] = useState<Lead[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [hasSearched, setHasSearched] = useState<boolean>(false); // Track whether a search has been performed
 
-const LeadFinderPage = () => {
-  const [filteredLeads, setFilteredLeads] = useState(LEAD_LIST);
-
-  // Placeholder for the dynamic filtering logic (e.g., API fetch)
-  useEffect(() => {
-    // Call to fetch leads or update based on filters
-    setFilteredLeads(LEAD_LIST); // Replace with actual API call
-  }, []);
+  const onSubmit = async (data: Record<string, string>) => {
+    setLoading(true);
+    setHasSearched(true); // Mark that a search has started
+    try {
+      const response = await axios.post(
+        "/api/lead-finder/generate-leads",
+        data
+      );
+      setLeads(response.data || []);
+    } catch (error) {
+      console.error("Error fetching leads:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
-    <div className="p-4 text-white">
-      {/* Filters Section */}
-      <div className="mb-6">
-        <h2 className="text-xl font-medium mb-2">Filters</h2>
-        <div className="flex space-x-4">
-          <Select>
-            <SelectTrigger className="border border-[#27272a] text-white p-2 rounded">
-              <SelectValue placeholder="Select Industry" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                <SelectLabel>Industries</SelectLabel>
-                {FILTER_OPTIONS.industries.map((industry, index) => (
-                  <SelectItem key={index} value={industry}>
-                    {industry}
-                  </SelectItem>
-                ))}
-              </SelectGroup>
-            </SelectContent>
-          </Select>
-
-          <Select>
-            <SelectTrigger className="border border-[#27272a] text-white p-2 rounded">
-              <SelectValue placeholder="Select Location" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                <SelectLabel>Locations</SelectLabel>
-                {FILTER_OPTIONS.locations.map((location, index) => (
-                  <SelectItem key={index} value={location}>
-                    {location}
-                  </SelectItem>
-                ))}
-              </SelectGroup>
-            </SelectContent>
-          </Select>
-
-          <Select>
-            <SelectTrigger className="border border-[#27272a] text-white p-2 rounded">
-              <SelectValue placeholder="Select Company Size" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                <SelectLabel>Company Sizes</SelectLabel>
-                {FILTER_OPTIONS.companySizes.map((size, index) => (
-                  <SelectItem key={index} value={size}>
-                    {size}
-                  </SelectItem>
-                ))}
-              </SelectGroup>
-            </SelectContent>
-          </Select>
-
-          <Select>
-            <SelectTrigger className="border border-[#27272a] text-white p-2 rounded">
-              <SelectValue placeholder="Select Engagement Score" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                <SelectLabel>Engagement Scores</SelectLabel>
-                {FILTER_OPTIONS.engagementScores.map((score, index) => (
-                  <SelectItem key={index} value={score}>
-                    {score}
-                  </SelectItem>
-                ))}
-              </SelectGroup>
-            </SelectContent>
-          </Select>
+    <div className="h-full flex flex-col">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+        <div>
+          <label>Industry</label>
+          <Input {...register("industry")} placeholder="e.g., Technology" />
         </div>
-      </div>
+        <div>
+          <label>Company</label>
+          <Input {...register("company")} placeholder="e.g., Example Corp" />
+        </div>
+        <div>
+          <label>Location</label>
+          <Input {...register("location")} placeholder="e.g., San Francisco" />
+        </div>
+        <Button type="submit" disabled={loading}>
+          {loading ? "Loading..." : "Find Leads"}
+        </Button>
+      </form>
 
-      {/* Leads List Section */}
-      <h2 className="text-xl font-medium mb-4">Leads List</h2>
-      <div className="overflow-x-auto">
-        <table className="min-w-full table-auto">
-          <thead>
-            <tr>
-              <th className="p-2 border-b border-[#27272a]">Name</th>
-              <th className="p-2 border-b border-[#27272a]">Company</th>
-              <th className="p-2 border-b border-[#27272a]">Role</th>
-              <th className="p-2 border-b border-[#27272a]">
-                Engagement Level
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredLeads.map((lead, index) => (
-              <tr key={index} className="odd:bg-[#27272a] even:bg-[#1e1e1e]">
-                <td className="p-2 border-b border-[#27272a]">{lead.name}</td>
-                <td className="p-2 border-b border-[#27272a]">
-                  {lead.company}
-                </td>
-                <td className="p-2 border-b border-[#27272a]">{lead.role}</td>
-                <td className="p-2 border-b border-[#27272a]">
-                  {lead.engagement}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+      <div className="mt-6 flex-1 overflow-y-auto">
+        {hasSearched && (
+          <>
+            <h2 className="text-xl">Leads</h2>
+            {leads.length > 0 ? (
+              <div className="space-y-2 max-h-[60vh] overflow-y-auto p-4 rounded-lg">
+                {leads.map((lead, index) => (
+                  <div key={index} className="border p-4 rounded-lg shadow-sm">
+                    <h3 className="font-semibold">{lead.name}</h3>
+                    <p>{lead.company}</p>
+                    <p>{lead.jobTitle}</p>
+                    <p>Score: {lead.engagementScore.toFixed(1)}</p>
+                    <p>Source: {lead.leadSource}</p>
+                    <p>Email: {lead.email}</p>
+                    <p>Phone: {lead.phoneNumber}</p>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p>No leads found. Try again with different filters.</p>
+            )}
+          </>
+        )}
       </div>
     </div>
   );
 };
 
-export default LeadFinderPage;
+export default LeadFinder;
