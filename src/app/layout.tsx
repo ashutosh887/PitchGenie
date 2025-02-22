@@ -3,8 +3,9 @@ import { Geist } from "next/font/google";
 import "./globals.css";
 import appConfig from "../config/appConfig";
 import { ClerkProvider } from "@clerk/nextjs";
+import { ThemeProvider } from "@/providers/ThemeProvider";
 
-const inter = Geist({
+const geist = Geist({
   subsets: ["latin"],
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
 });
@@ -18,10 +19,12 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <ClerkProvider>
-      <html lang="en">
-        <body className={`${inter.className} antialiased`}>{children}</body>
-      </html>
-    </ClerkProvider>
+    <html lang="en" suppressHydrationWarning>
+      <body className={`antialiased ${geist.className}`}>
+        <ThemeProvider attribute="class" defaultTheme="dark">
+          <ClerkProvider>{children}</ClerkProvider>
+        </ThemeProvider>
+      </body>
+    </html>
   );
 }
