@@ -4,6 +4,7 @@ import "./globals.css";
 import appConfig from "../config/appConfig";
 import { ClerkProvider } from "@clerk/nextjs";
 import { ThemeProvider } from "@/providers/ThemeProvider";
+import { ToastProviderWrapper } from "@/components/ui/use-toast";
 
 const geist = Geist({
   subsets: ["latin"],
@@ -22,7 +23,9 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={`antialiased ${geist.className}`}>
         <ThemeProvider attribute="class" defaultTheme="dark">
-          <ClerkProvider>{children}</ClerkProvider>
+          <ClerkProvider>
+            <ToastProviderWrapper>{children}</ToastProviderWrapper>
+          </ClerkProvider>
         </ThemeProvider>
       </body>
     </html>
