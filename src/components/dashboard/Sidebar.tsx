@@ -57,7 +57,6 @@ const Sidebar = () => {
         ))}
       </ScrollArea>
       <Separator className="border-[#27272A]" />{" "}
-      {/* Apply the new border color */}
       <div className="p-4">
         <Link
           href="/dashboard/settings"
