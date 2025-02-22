@@ -53,10 +53,6 @@ const navConfig: NavSection[] = [
       },
       { title: "Deal Pipeline", path: "/dashboard/deal-pipeline" },
       {
-        title: "Smart Recommendation",
-        path: "/dashboard/smart-recommendation",
-      },
-      {
         title: "Posthog Analytics",
         path: "/dashboard/posthog-analytics",
       },
