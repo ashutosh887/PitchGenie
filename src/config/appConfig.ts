@@ -1,19 +1,40 @@
+interface AppRoutes {
+  root: string;
+  signIn?: string;
+  dashboard: string;
+  afterSignIn?: string;
+}
+
+interface MongoDBConfig {
+  userName?: string;
+  password?: string;
+  host?: string;
+  uri: string;
+  dbName: string;
+}
+
+interface MockLead {
+  name: string;
+  role: string;
+  company: string;
+  profilePicture: string;
+  email: string;
+  phone: string;
+  linkedin: string;
+  location: string;
+  industry: string;
+  experience: string;
+  leadScore: number;
+  skills: string[];
+  insights: string;
+}
+
 interface AppConfig {
   appName: string;
   appDescription: string;
-  appRoutes: {
-    root: string;
-    signIn: string | undefined;
-    dashboard: string;
-    afterSignIn: string | undefined;
-  };
-  mongoDb: {
-    userName: string | undefined;
-    password: string | undefined;
-    host: string | undefined;
-    uri: string;
-    dbName: string;
-  };
+  appRoutes: AppRoutes;
+  mongoDb: MongoDBConfig;
+  mockLead: MockLead;
 }
 
 // Extract environment variables safely
@@ -42,6 +63,21 @@ const appConfig: AppConfig = {
     host: MONGO_HOST,
     uri: MONGO_URI,
     dbName: "pitchgenie",
+  },
+  mockLead: {
+    name: "Devi Lal Singh",
+    role: "Product Manager",
+    company: "InnovateX",
+    profilePicture: "/logo.jpeg",
+    email: "alice.johnson@innovatex.com",
+    phone: "+1987654321",
+    linkedin: "https://linkedin.com/in/alicejohnson",
+    location: "San Francisco, CA",
+    industry: "Technology",
+    experience: "8 years",
+    leadScore: 85,
+    skills: ["Product Management", "Agile", "Data Analysis", "UI/UX"],
+    insights: "Engaged with 2 emails, viewed website twice.",
   },
 };
 

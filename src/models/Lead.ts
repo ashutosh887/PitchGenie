@@ -12,6 +12,7 @@ export interface ILead extends Document {
   industry?: string;
   experience?: string;
   skills?: string[];
+  leadScore: number;
 }
 
 const LeadSchema = new Schema<ILead>({
