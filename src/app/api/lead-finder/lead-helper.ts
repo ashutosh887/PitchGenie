@@ -1,5 +1,6 @@
 import { fal } from "@fal-ai/client";
 import { NextResponse } from "next/server";
+import FirecrawlApp from "@mendable/firecrawl-js";
 
 // TODO: fix mock data generation logic
 const FALLBACK_LEADS = Array.from({ length: 30 }, (_, i) => ({
@@ -11,6 +12,31 @@ const FALLBACK_LEADS = Array.from({ length: 30 }, (_, i) => ({
   email: `lead${i + 1}@example.com`,
   phoneNumber: "123-456-7890",
 }));
+
+export async function fetchLeadsUsingFireCrawl(
+  industry: string,
+  company: string,
+  location: string
+) {
+  try {
+    const fireCrawlApp = new FirecrawlApp({
+      apiKey: process.env.FIRECRAWL_API_KEY,
+    });
+
+    const crawlResponse = await fireCrawlApp.crawlUrl("https://firecrawl.dev", {
+      limit: 100,
+      scrapeOptions: {
+        formats: ["json"],
+        includeTags: ["industry", "company", "location"],
+      },
+    });
+
+    return crawlResponse;
+  } catch (error) {
+    console.log("Error", error);
+    return [];
+  }
+}
 
 export async function fetchLeadsFromFalAPI(
   industry: string,
