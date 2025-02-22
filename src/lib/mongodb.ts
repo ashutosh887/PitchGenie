@@ -1,30 +1,21 @@
 import appConfig from "@/config/appConfig";
-import { MongoClient, Db } from "mongodb";
+import mongoose from "mongoose";
 
-const MONGODB_URI = `mongodb://${appConfig.mongoDb.userName}:${appConfig.mongoDb.password}@${appConfig.mongoDb.host}/?ssl=true&replicaSet=atlas-f6slaf-shard-0&authSource=admin&retryWrites=true&w=majority&appName=PitchGenie`;
+if (!appConfig.mongoDb.uri) {
+  throw new Error("MONGODB_URI is missing");
+}
 
-let cachedClient: MongoClient | null = null;
-let cachedDb: Db | null = null;
+const cached = (global as any).mongoose || { conn: null, promise: null };
 
-export async function connectToDatabase(): Promise<Db> {
-  if (cachedDb) {
-    return cachedDb;
+export async function connectToDatabase() {
+  if (cached.conn) {
+    return cached.conn;
   }
 
-  if (!MONGODB_URI) {
-    throw new Error("MONGODB_URI is missing");
+  if (!cached.promise) {
+    cached.promise = mongoose.connect(appConfig.mongoDb.uri);
   }
 
-  try {
-    if (!cachedClient) {
-      cachedClient = new MongoClient(MONGODB_URI);
-      await cachedClient.connect();
-    }
-
-    cachedDb = cachedClient.db("PitchGenie");
-    return cachedDb;
-  } catch (error) {
-    console.error("Failed to connect to MongoDB:", error);
-    throw new Error("Database connection failed");
-  }
+  cached.conn = await cached.promise;
+  return cached.conn;
 }

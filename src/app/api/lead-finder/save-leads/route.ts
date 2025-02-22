@@ -1,19 +1,19 @@
-// /pages/api/lead-finder/save-leads.ts
-
 import { NextApiRequest, NextApiResponse } from "next";
 import { MongoClient } from "mongodb";
+import appConfig from "@/config/appConfig";
 
-const MONGO_URI = process.env.MONGO_URI || "your_mongodb_connection_string";
-const DB_NAME = "pitchgenie";
+if (!appConfig.mongoDb.uri) {
+  throw new Error("MONGO_URI is missing in environment variables");
+}
 
 let cachedClient: MongoClient | null = null;
 
 async function connectToDatabase() {
-  if (cachedClient) return cachedClient;
-  const client = new MongoClient(MONGO_URI);
-  await client.connect();
-  cachedClient = client;
-  return client;
+  if (!cachedClient) {
+    cachedClient = new MongoClient(appConfig.mongoDb.uri);
+    await cachedClient.connect();
+  }
+  return cachedClient.db(appConfig.mongoDb.dbName);
 }
 
 export default async function handler(
@@ -30,11 +30,16 @@ export default async function handler(
       return res.status(400).json({ error: "Invalid request data" });
     }
 
-    const client = await connectToDatabase();
-    const db = client.db(DB_NAME);
+    const db = await connectToDatabase();
     const collection = db.collection("leads");
 
-    await collection.insertOne({ name, leads, createdAt: new Date() });
+    const insertData = leads.map((lead) => ({
+      name,
+      lead,
+      createdAt: new Date(),
+    }));
+
+    await collection.insertMany(insertData);
 
     return res.status(200).json({ message: "Leads saved successfully!" });
   } catch (error) {
