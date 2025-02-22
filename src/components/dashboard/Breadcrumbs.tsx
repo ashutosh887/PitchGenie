@@ -61,9 +61,8 @@ const Breadcrumbs = () => {
       </Breadcrumb>
 
       <div className="flex items-center space-x-2">
-        <Bell />
+        <Bell className="w-4 h-4 text-muted-foreground dark:text-muted-foreground-dark" />
         <ChevronRight className="w-1 h-1 text-muted-foreground dark:text-muted-foreground-dark" />
-
         <UserButton />
       </div>
     </div>
