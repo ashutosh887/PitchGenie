@@ -1,19 +1,10 @@
-"use client";
-
-import { Button } from "@/components/ui/button";
-import { SignOutButton } from "@clerk/nextjs";
-
-const Dashboard = () => {
+const DashboardPage = () => {
   return (
-    <div className="flex flex-col justify-center items-center h-screen">
-      <h1 className="text-4xl font-bold text-primary">Dashboard</h1>
-      <SignOutButton>
-        <Button className="mt-6 bg-primary text-primary-foreground hover:bg-primary/80">
-          Logout
-        </Button>
-      </SignOutButton>
+    <div className="p-4 bg-gray-900 text-white">
+      <h1 className="text-2xl font-semibold">Welcome to the Dashboard</h1>
+      <p>This is your main dashboard view.</p>
     </div>
   );
 };
 
-export default Dashboard;
+export default DashboardPage;
