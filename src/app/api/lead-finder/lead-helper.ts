@@ -15,11 +15,10 @@ const FALLBACK_LEADS = Array.from({ length: 30 }, (_, i) => ({
   phoneNumber: "123-456-7890",
 }));
 
-export async function fetchLeadsUsingFireCrawl(
-  industry: string,
-  company: string,
-  location: string
-) {
+export async function fetchLeadsUsingFireCrawl() {
+// industry: string,
+// company: string,
+// location: string
   try {
     const fireCrawlApp = new FirecrawlApp({
       apiKey: process.env.FIRECRAWL_API_KEY,

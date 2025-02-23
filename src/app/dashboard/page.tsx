@@ -72,7 +72,7 @@ export default function DashboardPage() {
     }
 
     fetchSummaries();
-  }, []);
+  }, [textSummary]);
 
   const handlePlayAudio = () => setIsPlaying(true);
   const handleStopAudio = () => setIsPlaying(false);

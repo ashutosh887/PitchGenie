@@ -11,6 +11,7 @@ const LeadProfile: React.FC = () => {
   const [loading, setLoading] = useState(false);
 
   const enrichLead = async () => {
+    setLead(appConfig.mockLead);
     setLoading(true);
     try {
       console.log("Enriching lead...");
@@ -19,7 +20,7 @@ const LeadProfile: React.FC = () => {
         alert("Lead enriched successfully! (Mock)");
       }, 1500);
     } catch (err) {
-      console.warn("Failed to enrich lead.");
+      console.warn("Failed to enrich lead.", err);
       setLoading(false);
     }
   };
