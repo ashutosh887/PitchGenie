@@ -4,7 +4,6 @@ import Image from "next/image";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
-import appConfig from "@/config/appConfig";
 
 type MockLead = {
   name?: string;
@@ -20,10 +19,6 @@ type MockLead = {
   leadScore?: number;
   profilePicture?: string;
 };
-
-interface LeadScoringProps {
-  lead?: MockLead;
-}
 
 // Ensure a valid default lead object to avoid undefined issues
 const defaultLead: MockLead = {
@@ -41,9 +36,9 @@ const defaultLead: MockLead = {
   profilePicture: "",
 };
 
-const LeadScoring: React.FC<LeadScoringProps> = ({
-  lead = appConfig.mockLead || defaultLead,
-}) => {
+const LeadScoring: React.FC = ({}) => {
+  const lead = defaultLead;
+
   return (
     <Card className="p-6 border border-gray-700 rounded-lg shadow-lg bg-gray-800 text-white flex flex-col">
       <CardHeader>
