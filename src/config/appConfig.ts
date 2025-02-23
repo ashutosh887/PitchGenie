@@ -50,7 +50,7 @@ const MONGO_URI =
 
 const appConfig: AppConfig = {
   appName: "PitchGenie",
-  appDescription: "AI that crafts the perfect pitch and follow-up!",
+  appDescription: " Your AI-Powered Deal Closer",
   appRoutes: {
     root: "/",
     signIn: process.env.NEXT_PUBLIC_CLERK_SIGN_IN_URL,
