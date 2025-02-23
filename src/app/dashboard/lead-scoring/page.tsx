@@ -8,7 +8,28 @@ import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import appConfig from "@/config/appConfig";
 
-const LeadScoring = ({ lead = appConfig.mockLead }) => {
+type MockLead = {
+  name?: string;
+  role?: string;
+  company?: string;
+  location?: string;
+  industry?: string;
+  experience?: string;
+  email?: string;
+  phone?: string;
+  linkedin?: string;
+  skills?: string[];
+  leadScore?: number;
+  profilePicture?: string;
+};
+
+interface LeadScoringProps {
+  lead?: MockLead;
+}
+
+const LeadScoring: React.FC<LeadScoringProps> = ({
+  lead = appConfig.mockLead,
+}) => {
   return (
     <Card className="p-6 border border-gray-700 rounded-lg shadow-lg bg-gray-800 text-white flex flex-col">
       <CardHeader>
@@ -16,7 +37,7 @@ const LeadScoring = ({ lead = appConfig.mockLead }) => {
           {lead.profilePicture && (
             <Image
               src={lead.profilePicture}
-              alt={lead.name}
+              alt={lead.name || "Lead"}
               width={80}
               height={80}
               className="w-20 h-20 rounded-full"
@@ -73,7 +94,7 @@ const LeadScoring = ({ lead = appConfig.mockLead }) => {
             className={`mt-2 font-bold ${
               lead.leadScore && lead.leadScore >= 80
                 ? "text-green-400"
-                : lead.leadScore >= 50
+                : lead.leadScore && lead.leadScore >= 50
                 ? "text-yellow-400"
                 : "text-red-400"
             }`}
@@ -89,11 +110,10 @@ const LeadScoring = ({ lead = appConfig.mockLead }) => {
         </div>
       </CardContent>
 
-      {/* Button with Consistent Spacing */}
       <div className="px-6">
         <Button
           className="w-full"
-          onClick={() => alert(`Action for ${lead.name}`)}
+          onClick={() => alert(`Action for ${lead.name || "Lead"}`)}
         >
           Take Action
         </Button>
