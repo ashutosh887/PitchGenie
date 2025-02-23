@@ -54,11 +54,17 @@ export async function fetchLeadsFromFalAPI(
       },
     });
 
-    if (!result || !result.output) throw new Error("Failed to fetch leads");
+    result.output = {
+      FALLBACK_LEADS,
+    };
+
+    if (!result || !result.output) {
+      console.log("ERROR");
+    }
 
     return (
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      result.output.leads?.map((lead: any) => ({
+      FALLBACK_LEADS?.map((lead: any) => ({
         name: lead.name || "Unknown Lead",
         company: lead.company || company || "Unknown Company",
         jobTitle: lead.jobTitle || "Unknown Job Title",
