@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import appConfig from "../config/appConfig";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 export default function Home() {
   const router = useRouter();
@@ -59,14 +60,14 @@ export default function Home() {
           </Button>
         </div>
         <div className="flex justify-center items-center">
-          <img src="/pg.png" alt="AI Sales" className="w-full max-w-md" />
+          <Image src="/pg.png" alt="AI Sales" className="w-full max-w-md" />
         </div>
       </section>
 
       {/* How It Works Section */}
       <section className="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-6xl w-full h-screen items-center">
         <div className="flex justify-center items-center">
-          <img src="/pg.png" alt="How It Works" className="w-full max-w-md" />
+          <Image src="/pg.png" alt="How It Works" className="w-full max-w-md" />
         </div>
         <div className="text-left">
           <h2 className="text-3xl font-semibold text-primary">How It Works</h2>

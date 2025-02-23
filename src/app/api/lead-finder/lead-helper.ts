@@ -16,9 +16,9 @@ const FALLBACK_LEADS = Array.from({ length: 30 }, (_, i) => ({
 }));
 
 export async function fetchLeadsUsingFireCrawl() {
-// industry: string,
-// company: string,
-// location: string
+  // industry: string,
+  // company: string,
+  // location: string
   try {
     const fireCrawlApp = new FirecrawlApp({
       apiKey: process.env.FIRECRAWL_API_KEY,
@@ -57,6 +57,7 @@ export async function fetchLeadsFromFalAPI(
     if (!result || !result.output) throw new Error("Failed to fetch leads");
 
     return (
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       result.output.leads?.map((lead: any) => ({
         name: lead.name || "Unknown Lead",
         company: lead.company || company || "Unknown Company",
