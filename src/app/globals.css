@@ -12,6 +12,40 @@
   color-scheme: dark;
 }
 
+.calendar-dark {
+  background-color: #111; /* Dark background */
+  color: white;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.calendar-dark abbr {
+  text-decoration: none;
+}
+
+.react-calendar__navigation {
+  background-color: #222;
+  border-radius: 8px;
+}
+
+.react-calendar__tile {
+  background: transparent;
+  color: white;
+  border-radius: 6px;
+  transition: 0.3s;
+}
+
+.react-calendar__tile:enabled:hover,
+.react-calendar__tile:enabled:focus {
+  background-color: #15803d; /* ShadCN Green */
+}
+
+.react-calendar__tile--active {
+  background-color: #22c55e !important;
+  color: black !important;
+  font-weight: bold;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;
