@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
-// @ts-nocheck
 "use client";
 
 import Image from "next/image";
@@ -27,14 +25,30 @@ interface LeadScoringProps {
   lead?: MockLead;
 }
 
+// Ensure a valid default lead object to avoid undefined issues
+const defaultLead: MockLead = {
+  name: "Unknown",
+  role: "Role unknown",
+  company: "Company unknown",
+  location: "Location unknown",
+  industry: "Not specified",
+  experience: "Not available",
+  email: "Not available",
+  phone: "Not available",
+  linkedin: "",
+  skills: [],
+  leadScore: 0,
+  profilePicture: "",
+};
+
 const LeadScoring: React.FC<LeadScoringProps> = ({
-  lead = appConfig.mockLead,
+  lead = appConfig.mockLead || defaultLead,
 }) => {
   return (
     <Card className="p-6 border border-gray-700 rounded-lg shadow-lg bg-gray-800 text-white flex flex-col">
       <CardHeader>
         <div className="flex items-center gap-4">
-          {lead.profilePicture && (
+          {lead.profilePicture ? (
             <Image
               src={lead.profilePicture}
               alt={lead.name || "Lead"}
@@ -42,33 +56,35 @@ const LeadScoring: React.FC<LeadScoringProps> = ({
               height={80}
               className="w-20 h-20 rounded-full"
             />
+          ) : (
+            <div className="w-20 h-20 bg-gray-600 rounded-full flex items-center justify-center">
+              📷
+            </div>
           )}
           <div>
             <CardTitle className="text-2xl font-semibold">
-              {lead.name || "Unknown"}
+              {lead.name}
             </CardTitle>
             <p className="text-gray-400">
-              {lead.role ? `${lead.role} at ${lead.company}` : "Role unknown"}
+              {lead.role} at {lead.company}
             </p>
-            <p className="text-gray-400">
-              {lead.location || "Location unknown"}
-            </p>
+            <p className="text-gray-400">{lead.location}</p>
           </div>
         </div>
       </CardHeader>
 
       <CardContent className="space-y-2 flex-grow">
         <p>
-          <strong>Industry:</strong> {lead.industry || "Not specified"}
+          <strong>Industry:</strong> {lead.industry}
         </p>
         <p>
-          <strong>Experience:</strong> {lead.experience || "Not available"}
+          <strong>Experience:</strong> {lead.experience}
         </p>
         <p>
-          <strong>Email:</strong> {lead.email || "Not available"}
+          <strong>Email:</strong> {lead.email}
         </p>
         <p>
-          <strong>Phone:</strong> {lead.phone || "Not available"}
+          <strong>Phone:</strong> {lead.phone}
         </p>
         <p>
           <strong>LinkedIn:</strong>{" "}
@@ -82,30 +98,25 @@ const LeadScoring: React.FC<LeadScoringProps> = ({
         </p>
         <p>
           <strong>Skills:</strong>{" "}
-          {lead.skills?.join(", ") || "No skills listed"}
+          {lead.skills?.length ? lead.skills.join(", ") : "No skills listed"}
         </p>
         <div className="mt-4">
           <h3 className="text-lg font-semibold">Lead Score</h3>
-          <Progress
-            value={lead.leadScore || 0}
-            className="h-2 mt-2 bg-gray-700"
-          />
+          <Progress value={lead.leadScore} className="h-2 mt-2 bg-gray-700" />
           <p
             className={`mt-2 font-bold ${
-              lead.leadScore && lead.leadScore >= 80
+              lead.leadScore >= 80
                 ? "text-green-400"
-                : lead.leadScore && lead.leadScore >= 50
+                : lead.leadScore >= 50
                 ? "text-yellow-400"
                 : "text-red-400"
             }`}
           >
-            {lead.leadScore
-              ? lead.leadScore >= 80
-                ? "🟢 Hot"
-                : lead.leadScore >= 50
-                ? "🟡 Warm"
-                : "🔴 Cold"
-              : "Not scored"}
+            {lead.leadScore >= 80
+              ? "🟢 Hot"
+              : lead.leadScore >= 50
+              ? "🟡 Warm"
+              : "🔴 Cold"}
           </p>
         </div>
       </CardContent>
@@ -113,7 +124,7 @@ const LeadScoring: React.FC<LeadScoringProps> = ({
       <div className="px-6">
         <Button
           className="w-full"
-          onClick={() => alert(`Action for ${lead.name || "Lead"}`)}
+          onClick={() => alert(`Action for ${lead.name}`)}
         >
           Take Action
         </Button>
