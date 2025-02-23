@@ -1,4 +1,4 @@
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextResponse } from "next/server";
 import { MongoClient } from "mongodb";
 import appConfig from "@/config/appConfig";
 
@@ -16,18 +16,16 @@ async function connectToDatabase() {
   return cachedClient.db(appConfig.mongoDb.dbName);
 }
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
-  if (req.method !== "POST") {
-    return res.status(405).json({ error: "Method Not Allowed" });
-  }
-
+export async function POST(req: Request) {
   try {
-    const { name, leads } = req.body;
+    const body = await req.json();
+    const { name, leads } = body;
+
     if (!name || !Array.isArray(leads) || leads.length === 0) {
-      return res.status(400).json({ error: "Invalid request data" });
+      return NextResponse.json(
+        { error: "Invalid request data" },
+        { status: 400 }
+      );
     }
 
     const db = await connectToDatabase();
@@ -41,9 +39,15 @@ export default async function handler(
 
     await collection.insertMany(insertData);
 
-    return res.status(200).json({ message: "Leads saved successfully!" });
+    return NextResponse.json(
+      { message: "Leads saved successfully!" },
+      { status: 200 }
+    );
   } catch (error) {
     console.error("Error saving leads:", error);
-    return res.status(500).json({ error: "Internal Server Error" });
+    return NextResponse.json(
+      { error: "Internal Server Error" },
+      { status: 500 }
+    );
   }
 }
