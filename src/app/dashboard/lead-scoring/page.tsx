@@ -4,14 +4,9 @@ import Image from "next/image";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
-import { ILead } from "@/models/Lead";
 import appConfig from "@/config/appConfig";
 
-type LeadScoringProps = {
-  lead?: ILead;
-};
-
-const LeadScoring = ({ lead = appConfig.mockLead }: LeadScoringProps) => {
+const LeadScoring = ({ lead = appConfig.mockLead }) => {
   return (
     <Card className="p-6 border border-gray-700 rounded-lg shadow-lg bg-gray-800 text-white flex flex-col">
       <CardHeader>
